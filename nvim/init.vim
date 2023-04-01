@@ -10,6 +10,7 @@ call plug#begin("~/.vim/plugged")
   Plug 'sainnhe/everforest'
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
+  Plug 'tpope/vim-fugitive'
 
   " Coc
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -23,7 +24,7 @@ call plug#begin("~/.vim/plugged")
 call plug#end()
 "Config Section
 "
-let mapleader=" "
+let mapleader="\<Space>"
 
 if (has("termguicolors"))
  set termguicolors
@@ -56,14 +57,14 @@ function! OpenTerminal()
 endfunction
 nnoremap <leader>n :call OpenTerminal()<CR>
 
-tnoremap <leader>h <C-\><C-n><C-w>h
-tnoremap <leader>j <C-\><C-n><C-w>j
-tnoremap <leader>k <C-\><C-n><C-w>k
-tnoremap <leader>l <C-\><C-n><C-w>l
-nnoremap <leader>h <C-w>h
-nnoremap <leader>j <C-w>j
-nnoremap <leader>k <C-w>k
-nnoremap <leader>l <C-w>l
+tnoremap <C-h> <C-\><C-n><C-w>h
+tnoremap <C-j> <C-\><C-n><C-w>j
+tnoremap <C-k> <C-\><C-n><C-w>k
+tnoremap <C-l> <C-\><C-n><C-w>l
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
 nnoremap <leader>p :FZF<CR>
 let g:fzf_action = {
@@ -73,6 +74,10 @@ let g:fzf_action = {
   \}
 
 let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+
+if executable('fzf')
+  echo 'FZF enabled'
+endif
 
 function! SynStack()
   if !exists("*synstack")
@@ -98,3 +103,6 @@ inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
 " Set tabs to 2 spaces by default
 set expandtab shiftwidth=2 tabstop=2 softtabstop=2
 lua require('treesitter-start')
+
+" Split screen horizontally and then move cursor to that buffer
+nnoremap <leader>s :split<CR><C-w>k
